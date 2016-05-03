@@ -63,10 +63,13 @@ class CephInstallerClientBase(object):
 
         :param hosts: A list of hosts to which to install.
         :type base_url: str
+
+        :returns: A task ID (str).
         """
         payload = {'hosts': hosts}
         payload.update(options)
-        return self._post('install/', payload)
+        result = self._post('install/', payload)
+        return result['identifier']
 
 
 class CephInstallerClient(CephInstallerClientBase):

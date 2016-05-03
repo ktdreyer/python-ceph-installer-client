@@ -42,12 +42,17 @@ In this example, let's say that you've set up the ceph-installer software on
     print(c.tasks('cb484401-b3ad-4cfa-8725-d6495713c451'))
 
     # Install ceph-mon software on monitors:
-    c.mon.install(['mymonitor1', 'mymonitor2'])
+    task_id = c.mon.install(['mymonitor1', 'mymonitor2'])
 
     # Or specify extra options:
-    c.mon.install(['mymonitor1'], {'redhat_storage': True, 'calamari': True})
+    task_id = c.mon.install(['mymonitor1'], {'redhat_storage': True,
+                                             'calamari': True})
 
     # Install ceph-osd software on OSDs:
-    c.osd.install(['myosd1', 'myosd2'])
+    task_id = c.osd.install(['myosd1', 'myosd2'])
+
+    # Has the "install" task started yet?
+    task = c.tasks(task_id)
+    print task['started']
 
 .. _`ceph-installer`: https://pypi.python.org/pypi/ceph-installer

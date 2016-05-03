@@ -6,6 +6,8 @@ from ceph_installer_client import CephInstallerClient
 
 INSTALL_HOST = 'installer.example.com'
 
+EXPECTED_IDENTIFIER = '47f60562-a96b-4ac6-be07-71726b595793'
+
 EXPECTED_RESPONSE = {
     'endpoint': '/api/mon/install/',
     'succeeded': False,
@@ -15,7 +17,7 @@ EXPECTED_RESPONSE = {
     'ended': None,
     'command': None,
     'stderr': None,
-    'identifier': '47f60562-a96b-4ac6-be07-71726b595793'
+    'identifier': EXPECTED_IDENTIFIER
 }
 
 
@@ -40,7 +42,7 @@ class TestMonBasic(TestMon):
 
     def test_basic(self):
         c = CephInstallerClient(INSTALL_HOST)
-        assert c.mon.install(['mymon1']) == EXPECTED_RESPONSE
+        assert c.mon.install(['mymon1']) == EXPECTED_IDENTIFIER
 
 
 class TestMonRedHatStorage(TestMon):
@@ -51,7 +53,7 @@ class TestMonRedHatStorage(TestMon):
     def test_redhat_storage(self):
         c = CephInstallerClient(INSTALL_HOST)
         payload = {'redhat_storage': True}
-        assert c.mon.install(['mymon1'], payload) == EXPECTED_RESPONSE
+        assert c.mon.install(['mymon1'], payload) == EXPECTED_IDENTIFIER
 
 
 class TestMonRedHatStorageAndCalamari(TestMon):
@@ -63,4 +65,4 @@ class TestMonRedHatStorageAndCalamari(TestMon):
     def test_redhat_storage_and_calamari(self):
         c = CephInstallerClient(INSTALL_HOST)
         payload = {'redhat_storage': True, 'calamari': True}
-        assert c.mon.install(['mymon1'], payload) == EXPECTED_RESPONSE
+        assert c.mon.install(['mymon1'], payload) == EXPECTED_IDENTIFIER
