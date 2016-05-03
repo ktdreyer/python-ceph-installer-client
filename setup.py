@@ -3,7 +3,7 @@ import re
 import subprocess
 import sys
 from setuptools.command.test import test as TestCommand
-from setuptools import Command
+from setuptools import setup, Command
 
 readme = os.path.join(os.path.dirname(__file__), 'README.rst')
 LONG_DESCRIPTION = open(readme).read()
@@ -65,8 +65,6 @@ class PyTest(TestCommand):
                             + self.pytest_args)
         sys.exit(errno)
 
-
-from setuptools import setup
 
 setup(
     name='ceph-installer-client',
