@@ -46,6 +46,7 @@ ONE_TASK_EXPECTED_RESPONSE = {
 
 def setup_module(module):
     httpretty.enable()
+    httpretty.reset()
     httpretty.register_uri(
         httpretty.GET, 'http://%s:8181/api/tasks/' % INSTALL_HOST,
         body=json.dumps(ALL_TASKS_EXPECTED_RESPONSE),
