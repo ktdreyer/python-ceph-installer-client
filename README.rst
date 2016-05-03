@@ -1,6 +1,9 @@
 Python ceph-installer-client
 ============================
 
+.. image:: https://travis-ci.org/ktdreyer/python-ceph-installer-client.svg?branch=master
+          :target: https://travis-ci.org/ktdreyer/python-ceph-installer-client
+
 A Python library for accessing the ceph-installer REST API service.
 
 This is useful for testing the `ceph-installer`_ application.
