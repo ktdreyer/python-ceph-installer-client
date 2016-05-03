@@ -61,8 +61,8 @@ class PyTest(TestCommand):
     def run_tests(self):
         # import here, cause outside the eggs aren't loaded
         import pytest
-        errno = pytest.main('ceph_installer_client --flake8 '
-                            + self.pytest_args)
+        errno = pytest.main('ceph_installer_client --flake8 ' +
+                            self.pytest_args)
         sys.exit(errno)
 
 
