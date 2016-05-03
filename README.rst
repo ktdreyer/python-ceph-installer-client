@@ -48,6 +48,6 @@ In this example, let's say that you've set up the ceph-installer software on
     c.mon.install(['mymonitor1'], {'redhat_storage': True, 'calamari': True})
 
     # Install ceph-osd software on OSDs:
-    c.mon.install(['myosd1', 'myosd2'])
+    c.osd.install(['myosd1', 'myosd2'])
 
 .. _`ceph-installer`: https://pypi.python.org/pypi/ceph-installer
