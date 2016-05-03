@@ -6,7 +6,7 @@ import six
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.error import HTTPError
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 log = logging.getLogger('ceph-installer-client')
