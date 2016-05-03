@@ -3,7 +3,7 @@ Python ceph-installer-client
 
 A Python library for accessing the ceph-installer REST API service.
 
-This is useful for testing the ceph-installer application.
+This is useful for testing the `ceph-installer`_ application.
 
 Installing from GitHub
 ======================
@@ -46,3 +46,5 @@ In this example, let's say that you've set up the ceph-installer software on
 
     # Install ceph-osd software on OSDs:
     c.mon.install(['myosd1', 'myosd2'])
+
+.. _`ceph-installer`: https://pypi.python.org/pypi/ceph-installer
