@@ -28,7 +28,7 @@ class TestMon(object):
             body=self.post_request_callback, content_type='application/json')
 
     def post_request_callback(self, request, uri, headers):
-        client_payload = json.loads(request.body)
+        client_payload = json.loads(request.body.decode('utf-8'))
         # We're asserting outside of a test class, which is a little weird.
         assert client_payload == self.expected_payload
         return (200, headers, json.dumps(EXPECTED_RESPONSE))

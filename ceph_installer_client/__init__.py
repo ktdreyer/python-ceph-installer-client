@@ -2,6 +2,7 @@ import json
 import logging
 import posixpath
 
+import six
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.error import HTTPError
 
@@ -28,17 +29,26 @@ class CephInstallerClientBase(object):
         url = self._api_url(endpoint)
         log.debug('GETing %s' % url)
         response = urlopen(Request(url))
-        return json.loads(response.read())
+        if six.PY2:
+            encoding = response.headers.getparam('charset') or 'utf-8'
+            # if encoding is None:
+            #    encoding = 'utf-8'
+        else:
+            encoding = response.headers.get_content_charset(failobj='utf-8')
+        return json.loads(response.read().decode(encoding))
 
     def _post(self, endpoint, payload):
         url = self._api_url(endpoint)
         log.debug('POSTing %s to %s' % (payload, url))
-        req = Request(url)
-        req.add_header('Content-Type', 'application/json')
-        response = urlopen(req, json.dumps(payload))
-        result = json.loads(response.read())
-        log.info(result)
-        return result
+        post_payload = json.dumps(payload).encode('utf-8')
+        response = urlopen(Request(url, post_payload))
+        if six.PY2:
+            encoding = response.headers.getparam('charset') or 'utf-8'
+            # if encoding is None:
+            #    encoding = 'utf-8'
+        else:
+            encoding = response.headers.get_content_charset(failobj='utf-8')
+        return json.loads(response.read().decode(encoding))
 
     def _monitors_payload(self, mon_hosts, exclude=None):
         data = []
@@ -86,7 +96,11 @@ class CephInstallerClient(CephInstallerClientBase):
             status = self._get('status/')
             return status['message'] == 'ok'
         except HTTPError as e:
-            status = json.loads(e.read())
+            if six.PY2:
+                encoding = e.headers.getparam('charset') or 'utf-8'
+            else:
+                encoding = e.headers.get_content_charset(failobj='utf-8')
+            status = json.loads(e.read().decode(encoding))
             raise CephInstallerClientError(status['message'])
 
     def tasks(self, task_id=None):
