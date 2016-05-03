@@ -55,4 +55,22 @@ In this example, let's say that you've set up the ceph-installer software on
     task = c.tasks(task_id)
     print task['started']
 
+    # Configure the monitors
+    monitors = [{'host': 'mymon1', 'interface': 'eth0'},
+                {'host': 'mymon2', 'interface': 'eth0'}]
+    options = {
+        'fsid': 'deedcb4c-a67a-4997-93a6-92149ad2622a',
+        'monitor_secret': 'AQA7P8dWAAAAABAAH/tbiZQn/40Z8pr959UmEA==',
+        'public_network': '192.0.2.0/24',
+    }
+    task_ids = c.mon.configure(monitors, options)
+
+    # Configure the OSDs
+    options = {'devices': {'/dev/vdb': '/dev/vdc'},
+               'fsid': 'deedcb4c-a67a-4997-93a6-92149ad2622a',
+               'journal_size': 5120,
+               'monitors': monitors
+               'public_network': '172.16.0.0/12'}
+    task_ids = c.osd.configure(osds, options)
+
 .. _`ceph-installer`: https://pypi.python.org/pypi/ceph-installer
