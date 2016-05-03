@@ -25,10 +25,13 @@ class CephInstallerClientBase(object):
     def _api_url(self, endpoint):
         return posixpath.join(self.base_url, endpoint)
 
-    def _get(self, endpoint):
-        url = self._api_url(endpoint)
-        log.debug('GETing %s' % url)
-        response = urlopen(Request(url))
+    def _parse_json(self, response):
+        """
+        Return a dict from JSON data in a urllib.response object.
+
+        :param response: a urllib.response object
+        :returns: ``dict``
+        """
         if six.PY2:
             encoding = response.headers.getparam('charset') or 'utf-8'
             # if encoding is None:
@@ -37,18 +40,18 @@ class CephInstallerClientBase(object):
             encoding = response.headers.get_content_charset(failobj='utf-8')
         return json.loads(response.read().decode(encoding))
 
+    def _get(self, endpoint):
+        url = self._api_url(endpoint)
+        log.debug('GETing %s' % url)
+        response = urlopen(Request(url))
+        return self._parse_json(response)
+
     def _post(self, endpoint, payload):
         url = self._api_url(endpoint)
         log.debug('POSTing %s to %s' % (payload, url))
         post_payload = json.dumps(payload).encode('utf-8')
         response = urlopen(Request(url, post_payload))
-        if six.PY2:
-            encoding = response.headers.getparam('charset') or 'utf-8'
-            # if encoding is None:
-            #    encoding = 'utf-8'
-        else:
-            encoding = response.headers.get_content_charset(failobj='utf-8')
-        return json.loads(response.read().decode(encoding))
+        return self._parse_json(response)
 
     def _monitors_payload(self, mon_hosts, exclude):
         """
