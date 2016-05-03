@@ -160,9 +160,3 @@ class OSD(CephInstallerClientBase):
 
 class CephInstallerClientError(RuntimeError):
     pass
-
-#check_status(base_url)
-#install_mons(mon_hosts, base_url)
-#install_osds(osd_hosts, base_url)
-#configure_mons(mon_hosts, base_url)
-#configure_osds(osd_hosts, mon_hosts, base_url)
